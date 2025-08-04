@@ -20,14 +20,8 @@ This project demonstrates a simulated migration from Elasticsearch 7.x to 9.x in
 - Systemd, curl, wget, apt
 
 ## 🛠️ Structure
-- `setup-scripts/`: Automated install/upgrade scripts
-- `config-files/`: Custom config for ES, Kibana, Logstash
-- `snapshots/`: Example snapshot & restore steps
-- `notes/`: Version diff, errors, observations
-
-## 📸 Screenshots
-- [ ] Add system setup screenshots here
-
-## 👨‍💻 Author
-Anurag . – DevSecOps enthusiast
+- `setup/`: Automated install/upgrade scripts for ES, Kibana, Logstash
+- `config/`: Custom config for ES, Kibana, Logstash
+- `docs/`: document processes like ilm_rollover_simulation, alert setup in kibana
+- `backup/`: Automated snapshot backup of indices for restoration of accidental deletion and restore.
 
