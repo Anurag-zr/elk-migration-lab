@@ -173,5 +173,5 @@ restoration successfull
 
 ## Delete Snapshot (If needed)
 ```json
-DELETE _snapshot/sample_backup_repo/manual-snapshot-01
+DELETE _snapshot/local_backup_repo/manual-snapshot-01
 ```
