@@ -9,7 +9,7 @@ sudo apt install python3-pip python3-venv git -y
 ## Create a Virtual Environment
 ```bash
 python3 -m venv elastalert2-env
-source elastalert2-env/bin/activate
+source elastalert2-env/bin/activate. #inside elastalert2 root directory
 ```
 
 ## Clone ElastAlert2 Repository
