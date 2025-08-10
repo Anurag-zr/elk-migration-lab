@@ -1,0 +1,22 @@
+# Elasticsearch connection details
+es_host: localhost          # Host where Elasticsearch is running
+es_port: 9200               # Port where Elasticsearch is listening
+use_ssl: False              # Use HTTPS if True
+
+# ElastAlert internal index for storing alert history, errors, etc.
+writeback_index: elastalert_status
+
+# Folder where all your rule files (.yaml) are stored
+rules_folder: example_rules
+
+# How often ElastAlert queries Elasticsearch for matches
+run_every:
+  minutes: 1                  # Changed from minutes: 1 to days: 1 for lab testing
+
+# Time window to look back for events in each query
+buffer_time:
+  minutes: 15                # Changed from minutes: 15 to days: 7 for testing
+
+# Max age of events to send alerts for
+alert_time_limit:
+  days: 2                  # Changed from days: 2 to days: 15
