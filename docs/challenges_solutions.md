@@ -112,3 +112,31 @@ git checkout 2.8.0
 # Install within virtual environment
 pip install .
 ```
+
+## 7. While Creating ElastAlert Rule - Field Mapping & Keyword Usage
+**problem**
+Our first attempts with should queries returned zero matches even though Kibana showed hits.
+
+**cause**
+This happened because we queried threat_level.keyword instead of the correctly mapped threat_level field.
+
+**solution**
+verify field names and their data types using:
+```http
+GET sample_syslog_fwlogs-*/_mapping
+```
+
+## 8. While Creating ElastAlert Rule - Filter Syntax Confusion (should vs terms)
+**problem**
+The should construct didn’t return expected results, while the terms filter worked.
+
+**cause**
+Our original data mapping + ingestion process meant that not all documents had the .keyword subfield populated, making term matching fail in should queries.
+
+**solution**
+try different filter and read documentation
+```yaml
+filter:
+  - terms:
+      threat_level: ["high", "critical"]
+```
