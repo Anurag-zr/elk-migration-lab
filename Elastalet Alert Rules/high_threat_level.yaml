@@ -1,0 +1,20 @@
+# example_rules/high_threat_level.yaml
+
+name: High Threat Level Detected
+type: any
+index: sample_syslog_fwlogs-*
+# filter:
+# - terms:
+#     threat_level: ["high", "critical"] 
+# alert:
+#   - debug
+
+## diffentent way
+filter:
+  - bool:
+      should:
+        - term: { "threat_level": "high" }
+        - term: { "threat_level": "critical" }
+      minimum_should_match: 1
+alert:
+  - debug
