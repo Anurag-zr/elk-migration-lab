@@ -1,0 +1,115 @@
+# # rules/exfiltration_high_volume.yaml
+# name: Potential Data Exfiltration - High Outbound Volume
+# # Use frequency to detect N events within timeframe (per src_ip)
+# # type: frequency
+# type: any
+
+# # Match the index pattern you already have
+# index: sample_syslog_fwlogs-*
+
+# # Only consider outbound traffic (action ALLOW) and large bytes_sent events
+# filter:
+#   - term:
+#       action: "ALLOW"
+#   - range:
+#       bytes_sent:
+#         gte: 1000        # 1 MB, per event threshold (tune based on baseline)
+#   - bool:
+#       must_not:           # Exclude common private IP ranges to focus on potential exfiltration
+#         - range:
+#             dst_ip:
+#               gte: "10.0.0.0"
+#               lte: "10.255.255.255"
+#         - range:
+#             dst_ip:
+#               gte: "172.16.0.0"
+#               lte: "172.31.255.255"
+#         - range:
+#             dst_ip:
+#               gte: "192.168.0.0"
+#               lte: "192.168.255.255"
+
+# # Count how many of such events come from same src_ip in time_window
+# # This triggers if there are >= 5 events in 10 minutes (tune these)
+# num_events: 5
+# timeframe:
+#   minutes: 10
+
+# # Aggregate by source IP so alerts are per source
+# aggregation_key: src_ip
+
+# # How often to run; smaller interval in prod (1m)
+# run_every:
+#   minutes: 1
+
+# # How far back to look each run (account for ingestion delay)
+# buffer_time:
+#   minutes: 15
+
+# # Don't spam alerts — wait before alerting same src_ip again
+# # realert:
+# #   minutes: 60
+
+# realert:
+#   minutes: 0
+
+# # Optional: group multiple matches into single alert text
+# aggregation:
+#   minutes: 10
+
+# # Output (example): use webhook or email in prod; keep debug for test
+# # alert:
+# #   - "email"            # or "webhook" / custom connector (must be configured)
+# # alert_subject: "ALERT: Possible Data Exfiltration from {{aggregation_key}}"
+# # # Use alert_text to include useful fields
+# # alert_text: |
+# #   Potential data exfiltration detected for source IP: {{aggregation_key}}
+# #   Count of large outbound events: {{num_events}}
+# #   Time Range: {{start}} to {{end}}
+# #   Example dst_ip(s): {{matches[0].dst_ip}} (check Kibana for full details)
+# # alert_text_type: alert_text_only
+# # alert_text_args:
+# #   - aggregation_key
+
+# alert:
+#   - debug
+# # Tags/metadata for triage and severity
+# tags:
+#   - severity:high
+#   - usecase:exfiltration
+
+
+name: Potential Data Exfiltration - High Outbound Volume
+type: any
+
+index: sample_syslog_fwlogs-*
+timestamp_field: "@timestamp"
+
+filter:
+  - term:
+      action: "allow"
+  - range:
+      bytes_sent:
+        gte: 1000
+  - bool:
+      must_not:
+        - range:
+            dst_ip:
+              gte: "10.0.0.0"
+              lte: "10.255.255.255"
+        - range:
+            dst_ip:
+              gte: "172.16.0.0"
+              lte: "172.31.255.255"
+        - range:
+            dst_ip:
+              gte: "192.168.0.0"
+              lte: "192.168.255.255"
+
+
+alert:
+  - debug
+
+realert:
+  minutes: 0
+
