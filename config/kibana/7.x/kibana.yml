@@ -116,3 +116,8 @@ server.host: "0.0.0.0"
 
 ## Added because kibana alerting not working due to missing encryption key
 xpack.encryptedSavedObjects.encryptionKey: "this_is_32+_character_encryption_key"
+
+# added config for enabling security
+elasticsearch.hosts: ["http://localhost:9200"]
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "kibana_system_password"
