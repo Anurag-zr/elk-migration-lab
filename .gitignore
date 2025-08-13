@@ -27,3 +27,7 @@ Thumbs.db
 
 #backup files
 *.bak 
+
+# ignore environment files
+.env
+
