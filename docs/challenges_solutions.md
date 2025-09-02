@@ -140,3 +140,18 @@ filter:
   - terms:
       threat_level: ["high", "critical"]
 ```
+
+## 9. Handling Legacy vs Modern Index Templates Before Migrating to ES 9.x
+**Problem**
+
+After restoring snapshots from **Elasticsearch 7.x** into **8.x**, both legacy `_template` and new `_index_template` objects exist for the same indices (e.g., `sample_syslog_fwlogs`).  
+Leaving legacy `_template` objects around may cause confusion or conflicts during index creation/rollover in newer versions, especially in **Elasticsearch 9.x**, where `_template` is fully deprecated.
+
+**Why it matters**
+- **Legacy `_template`** objects may override or conflict with `_index_template`.
+- Migration to **9.x** could fail or apply incorrect mappings/ILM policies.
+- Cleaning them up ensures the cluster is aligned with modern standards.
+
+**Solution**
+[Verify_breaking_changes_8.x](./Verify_breaking_changes_8.x.md)
+Migration path to **Elasticsearch 9.x** becomes clean and forward-compatible.
