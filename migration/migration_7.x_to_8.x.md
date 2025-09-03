@@ -114,7 +114,7 @@ curl --cacert /etc/elasticsearch/certs/http_ca.crt \
 ![ES_8.x_snapshot_restore](./screenshot/ES_8.x_snapshot_restore.png)
 
 
-## Post Restore Verification Checklist
+## 5. Post Restore Verification Checklist
 ```bash
 export ES_URL="https://localhost:9200"
 export ES_CA="/etc/elasticsearch/certs/http_ca.crt"
@@ -162,7 +162,7 @@ root@elk-box:/home/anurag/elk-lab# escurl "$ES_URL/_nodes?filter_path=nodes.*.ve
 }
 ```
 
-## indices restored and searchables
+### indices restored and searchables
 
 ```bash
 escurl "$ES_URL/_cat/indices?v"
@@ -532,7 +532,7 @@ root@elk-box:/home/anurag/elk-lab# escurl "$ES_URL/_template/sample_syslog_fwlog
 ```
 delete the legacy _template for sample_syslog_fwlogs for future compatibility for ES 9.x
 
-## Ingest Pipeline
+### Ingest Pipeline
 ```bash
 escurl "$ES_URL/_ingest/pipeline?pretty"
 
@@ -573,7 +573,7 @@ root@elk-box:/home/anurag/elk-lab# escurl "$ES_URL/_ingest/pipeline" | jq 'keys'
 ]
 ```
 
-## snapshot repository and snapshots
+### snapshot repository and snapshots
 ```bash
 escurl "$ES_URL/_snapshot/_all?pretty"
 escurl "$ES_URL/_snapshot/<your_repo>/_all?pretty"
@@ -592,7 +592,7 @@ root@elk-box:/home/anurag/elk-lab# escurl "$ES_URL/_snapshot/_all?pretty"
 }
 ```
 
-## cluster settings (including disk watermark setting we tempared earlier)
+### cluster settings (including disk watermark setting we tempared earlier)
 ```bash
 # View current + defaults (flat for easy grep)
 escurl "$ES_URL/_cluster/settings?include_defaults=true&flat_settings=true&pretty"
@@ -609,7 +609,7 @@ root@elk-box:/home/anurag/elk-lab# escurl "$ES_URL/_cluster/settings?flat_settin
 }
 ```
 
-## Depreciations for ES 9.x readiness
+### Depreciations for ES 9.x readiness
 ```bash
 # Cluster-level deprecations
 escurl "$ES_URL/_migration/deprecations?pretty"
@@ -639,12 +639,12 @@ done
 ```
 sample_syslog_fwlogs must need to be reindexed before moving to ES 9.x
 
-### reindexing index before migrating to ES 9.x
+#### reindexing index before migrating to ES 9.x
 
 [Reindex_index_ES_8.x_compatible](/docs/Reindexing_index_ES_8.x_compatibility.md)
 
 
-## Security Sanity
+### Security Sanity
 ```bash
 # Built-in users & roles exist (just a quick peek)
 escurl "$ES_URL/_security/user?pretty"
@@ -779,7 +779,7 @@ escurl "$ES_URL/_license?pretty"
 }
 ```
 
-## Test write path
+## 6. Test write path
 
 ```bash
 escurl -X POST "$ES_URL/sample_syslog_fwlogs/_doc?refresh=true" -H 'Content-Type: application/json' -d '{
@@ -891,3 +891,51 @@ escurl -X PUT "$ES_URL/_snapshot/9x_migration_repo/pre_9x_migration_$(date -u +%
   "accepted": true
 }
 ```
+
+### check snapshot status
+
+```bash 
+escurl "$ES_URL/_snapshot/9x_migration_repo/_all?pretty"
+```
+
+```json
+  "snapshots" : [
+    {
+      "snapshot" : "pre_9x_migration_20250902054505",
+      "uuid" : "8Qn9HOeLSkOSDPrQgZ4MXA",
+      "repository" : "9x_migration_repo",
+      "version_id" : 8536000,
+      "version" : "8.19.0-8.19.2",
+      "indices" : [
+        "elastalert_status",
+        ".geoip_databases",
+        ".ds-.logs-deprecation.elasticsearch-default-2025.08.14-000001",
+        "sample_syslog_fwlogs-2025.08.14-000003",
+        ".ds-.slm-history-7-2025.08.30-000003",
+        ".ds-ilm-history-5-2025.08.31-000002",
+        ".ds-ilm-history-7-2025.08.21-000002",
+        "elastalert_status_status",
+        ".ds-ilm-history-7-2025.08.14-000001",
+        ".apm-agent-configuration",
+        ".ds-ilm-history-5-2025.08.01-000001",
+        ".ds-.logs-deprecation.elasticsearch-default-2025.08.01-000001",
+        ".apm-custom-link",
+        "elastalert_status_error",
+        ".tasks",
+        "sample_syslog_fwlogs-test",
+        ".kibana_7.17.29_001",
+        ".async-search",
+        ".ds-.slm-history-7-2025.08.16-000001",
+        ".ds-.slm-history-7-2025.08.23-000002",
+        ".kibana-event-log-7.17.29-000002",
+        ".kibana_task_manager_7.17.29_001",
+        ".kibana-event-log-7.17.29-000001",
+        ".ds-.slm-history-5-2025.08.06-000001",
+        "sample_syslog_fwlogs-2025.08.30-000001",
+        ".ds-ilm-history-7-2025.08.30-000003",
+        "elastalert_status_silence",
+        ".ds-.logs-deprecation.elasticsearch-default-2025.08.31-000002",
+        ".security-7"
+      ],
+```
+
