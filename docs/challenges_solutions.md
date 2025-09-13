@@ -155,3 +155,32 @@ Leaving legacy `_template` objects around may cause confusion or conflicts durin
 **Solution**
 [Verify_breaking_changes_8.x](./Verify_breaking_changes_8.x.md)
 Migration path to **Elasticsearch 9.x** becomes clean and forward-compatible.
+
+
+## 10. Compatibility issue during migration from ES 8.x to ES 9.x
+**Problem**
+
+During restoring indexes in ES 9.x, find out some indices and settings is not compatible with this version. These are:
+       ".ds-.slm-history-7-2025.08.30-000003",
+        ".ds-ilm-history-5-2025.08.31-000002",
+        ".ds-ilm-history-7-2025.08.21-000002",       
+        ".ds-.slm-history-7-2025.08.16-000001",
+        ".ds-.slm-history-7-2025.08.23-000002",
+        ".kibana-event-log-7.17.29-000002",
+        ".kibana_task_manager_7.17.29_001",
+        ".kibana-event-log-7.17.29-000001",
+        ".ds-.slm-history-5-2025.08.06-000001" etc
+
+**cause**
+Some system indices (like .ds-ilm-history-*, .slm-history-*, .tasks) were created in 7.x compatibility mode.
+
+In ES 9.x, they cannot be upgraded directly unless they were marked read-only before snapshot.
+
+Since the snapshot was already taken, the workaround is to exclude those problematic indices from restore (they’ll be auto-recreated fresh by 9.x).
+
+**why it matters**
+- without navigating through this problem, we can't restore our index data and ES 9.x keep throwing error.
+
+**Solution**
+- Find attached file for detail solution
+[Resolve_comp_issue_ES7_in_ES9](./Resolve_compatibility_issue_ES7_in_ES9.md)
