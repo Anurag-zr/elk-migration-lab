@@ -120,6 +120,7 @@ ELK-MIGRATION-LAB/ <br>
 
 ## Example Screenshots
 - ### Kibana dashboards for firewall logs  
+![Kibana_Dashboard](/docs/Kibana_visualized_screenshot/kibana_dashboard_image.png)
 ![Discover](/config/logstash/7.x/screenshot/sample_syslog_fwlog_discover.png)
 - ### ILM rollover explain output  
 ![ILM_policy](/config/logstash/7.x/screenshot/sample_syslog_fwlog_ilm_policy.png)
