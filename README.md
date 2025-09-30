@@ -8,13 +8,14 @@ It is designed as a hands-on lab running inside an **Ubuntu VM (UTM on macOS)**,
 
 ## Objectives
 - ✅ Simulate migration from Elasticsearch **7.x → 8.x → 9.x**
-- ✅ Reindex data into compatible formats across versions
-- ✅ Build **index templates** and **ILM policies** for log management
-- ✅ Parse and normalize **firewall logs** (syslog format, ~15+ fields)
-- ✅ Visualize logs in **Kibana dashboards**
-- ✅ Configure **ElastAlert2** for SOC-style alerting
-- ✅ Enable **snapshot & restore** for upgrade safety and disaster recovery
-- ✅ Document breaking changes, compatibility fixes, and migration workflow
+- ✅ Simulated a functional SOC workflow, ingesting firewall logs via Logstash
+- ✅ Built custom parsing pipelines (15+ normalized fields like IPs, ports, users, threat levels, etc.)
+- ✅ Designed index templates, ILM & SLM policies for scalable log lifecycle management
+- ✅ Created SOC-style dashboards in Kibana for log monitoring & analysis
+- ✅ Developed threat detection use cases (data exfiltration, high-threat activity, etc.) — will keep adding more in the   repo
+- ✅ Configured ElastAlert2 to query those use cases in Elasticsearch and trigger alerts, integrated with TheHive for case - ✅ management
+- ✅ Migrated Elasticsearch 7.x → 8.x → 9.x using snapshot/restore, reindexing, and compatibility fixes
+- ✅ Documented breaking changes, compatibility fixes and upgrade workflows for smooth migration
 
 ---
 
@@ -148,9 +149,9 @@ ELK-MIGRATION-LAB/ <br>
 (See [`docs/challenges_solutions.md`](./docs/challenges_solutions.md))
 
 ## Next Steps (Future Work)
-- Ingest real **Check Point & Sophos firewall logs**  
+- Adding **TheHive, Cortex and MISP** to make it full fledge SOC Lab. 
 - Add **Wazuh** for host-based monitoring (separate VM)  
-- Automate pipeline setup with Ansible/Terraform  
+- Automate deployment with Docker/Ansible/Terraform  
 - Expand SOC use cases (MITRE ATT&CK coverage)
 
 ---
