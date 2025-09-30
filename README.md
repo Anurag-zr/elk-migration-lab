@@ -7,14 +7,14 @@ It is designed as a hands-on lab running inside an **Ubuntu VM (UTM on macOS)**,
 ---
 
 ## Objectives
-- ✅ Simulate migration from Elasticsearch **7.x → 8.x → 9.x**
+
 - ✅ Simulated a functional SOC workflow, ingesting firewall logs via Logstash
-- ✅ Built custom parsing pipelines (15+ normalized fields like IPs, ports, users, threat levels, etc.)
-- ✅ Designed index templates, ILM & SLM policies for scalable log lifecycle management
-- ✅ Created SOC-style dashboards in Kibana for log monitoring & analysis
+- ✅ Built **custom parsing pipelines** (15+ normalized fields like IPs, ports, users, threat levels, etc.)
+- ✅ Designed **index templates, ILM & SLM policies** for scalable log lifecycle management
+- ✅ Created **SOC-style dashboards** in Kibana for log monitoring & analysis
 - ✅ Developed threat detection use cases (data exfiltration, high-threat activity, etc.) — will keep adding more in the   repo
 - ✅ Configured ElastAlert2 to query those use cases in Elasticsearch and trigger alerts, integrated with TheHive for case - ✅ management
-- ✅ Migrated Elasticsearch 7.x → 8.x → 9.x using snapshot/restore, reindexing, and compatibility fixes
+- ✅ Migrated Elasticsearch **7.x → 8.x → 9.x** using snapshot/restore, reindexing, and compatibility fixes
 - ✅ Documented breaking changes, compatibility fixes and upgrade workflows for smooth migration
 
 ---
